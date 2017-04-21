@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.login.logindao">
+    <resultMap id="getUserinfo" type="com.lsure.server.entity.userInfo">
+        <result property="userName" column="js_name"></result>
+        <result property="userPswd" column="js_pswd"></result>
+        <result property="userRole" column="js_role"></result>
+        <result property="userID" column="js_id"></result>
+    </resultMap>
+    <select id="js_getPassword" parameterType="java.lang.String" resultMap="getUserinfo">
+        SELECT
+        js_xxb.js_id,
+        js_xxb.js_name,
+        js_xxb.js_role,
+        js_xxb.js_pswd FROM js_xxb WHERE js_id=#{userid}
+    </select>
+    <resultMap id="getStuinfo" type="com.lsure.server.entity.userInfo">
+        <result property="userName" column="yjs_name"></result>
+        <result property="userPswd" column="yjs_pswd"></result>
+        <!--  <result property="userRole" column="yjs_role"></result>-->
+        <result property="userID" column="yjs_id"></result>
+    </resultMap>
+    <select id="yjs_getPassword" parameterType="java.lang.String" resultMap="getStuinfo">
+    SELECT  yjs_id,yjs_name,yjs_pswd FROM  yjs_xxb WHERE  yjs_id=#{userid}
+    </select>
+</mapper>

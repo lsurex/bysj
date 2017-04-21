@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.modify.mdfPswd">
+    <select id="getCurrentPswd" parameterType="String" resultType="String">
+        SELECT js_pswd from js_xxb WHERE js_id=#{currentid}
+    </select>
+    <update id="updatePswd">
+        UPDATE js_xxb SET  js_pswd=#{newPswd} WHERE js_id=#{currentid}
+    </update>
+</mapper>

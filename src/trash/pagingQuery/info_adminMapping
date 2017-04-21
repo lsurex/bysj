@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.query.info_admin">
+    <resultMap id="js_pomap" type="com.lsure.server.entity.js_po">
+        <result property="js_name" column="yjs_tutor"></result>
+        <result property="quantityOfstu" column="quantityofstu"></result>
+    </resultMap>
+    <select id="getTreeNode" resultMap="js_pomap">
+    SELECT yjs_tutor,count(*) AS quantityofstu FROM yjs_xxb GROUP BY yjs_tutor;
+</select>
+    <select id="getNodes" resultType="com.lsure.server.entity.stuInfo">
+        select * from yjs_xxb WHERE yjs_tutor=#{tutor}
+    </select>
+    <select id="getSpecificStuInfo" resultType="java.util.HashMap">
+        SELECT * FROM yjsxxb,yjs_kzxxb WHERE yjsxxb.yjs_id=#{yjs_id} AND yjsxxb.yjs_id=yjs_kzxxb.yjs_id
+    </select>
+    <select id="getTableStructure" resultType="com.lsure.server.entity.tbStructure">
+        SELECT  * FROM yjs_xxb_zjlb WHERE jlb_visibility='visible' ;
+    </select>
+    <update id="delSpecifucStuInfo">
+      DELETE FROM yjs_xxb WHERE  yjs_id=#{yjs_id}
+    </update>
+    <update id="alterSpecificStuInfo">
+        ${sql}
+    </update>
+</mapper>
+

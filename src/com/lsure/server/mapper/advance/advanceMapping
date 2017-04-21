@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.advance.advanceDao">
+    <select id="getInputTableItems" resultType="com.lsure.server.entity.tbStructure">
+        select *FROM yjs_xxb_zjlb WHERE yjs_xxb_zjlb.jlb_belonging='yjs_xxb' and jlb_visibility='visible';
+    </select>
+    <select id="getDeletableItems" resultType="java.util.HashMap">
+        SELECT jlb_lm,jlb_bz,jlb_type FROM  yjs_xxb_zjlb  WHERE yjs_xxb_zjlb.jlb_belonging='yjs_xxb' AND jlb_readonly="false";
+    </select>
+    <insert id="insertStudents">
+        ${sql}
+    </insert>
+    <update id="deleteTableItem">
+         ALTER TABLE yjs_xxb DROP ${jlb_lm} RESTRICT;
+    </update>
+    <update id="syncjlb">
+        DELETE FROM yjs_xxb_zjlb WHERE jlb_lm=#{jlb_lm}
+    </update>
+    <update id="addTableItem">
+         ALTER  TABLE  yjs_xxb ADD COLUMN ${jlb_lm} ${type};
+    </update>
+    <insert id="syncAddjlb">
+        INSERT  INTO  yjs_xxb_zjlb(jlb_lm,jlb_bz,jlb_type) VALUES(#{jlb_lm},#{comment},#{type})
+    </insert>
+</mapper>

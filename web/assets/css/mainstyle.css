@@ -1,0 +1,58 @@
+#leftnav {
+    background-color: #222;
+    opacity: 1;
+    height: 0px;
+    padding: 30px 0px 75%;
+    border: #080808 solid 1px ;
+    border-bottom: none;
+
+}
+
+.panel-group .panel {
+    border-radius: 0px;
+
+}
+
+.heading + .panel-collapse > .panel-body {
+    border-top: 4px;
+}
+
+.panel-default {
+    border-color: #080808;
+}
+
+.panel-title {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: inherit;
+}
+
+.panel-default > .panel-heading {
+    color: #9d9d96;
+    background-color: #222;
+    border-color: #080808
+}
+
+.panel {
+    background-color: #333333;;
+
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #080808;
+}
+
+.heading + .panel-collapse > .panel-body {
+    border-top: 3px solid #ddd;
+}
+.panel-body a{
+    color: #999999;
+}
+.panel-body a:hover,.panel-body a:focus{
+    color: #FFFFFF;
+}
+
+.error {
+    color: red;
+}

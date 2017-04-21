@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.attendence.attendencedao">
+    <select id="getTimeKeeping" parameterType="java.lang.String" resultType="com.lsure.server.entity.stuInfo">
+        SELECT * from yjs_xxb WHERE
+        <choose>
+            <when test="tutorid=='admin'">
+            </when>
+            <otherwise>
+                js_id=#{tutorid} AND
+            </otherwise>
+        </choose>
+        yjs_id IN (
+        select DISTINCT yjs_sys_kqb.yjs_id FROM yjs_sys_kqb WHERE kqsj &lt;(SELECT DATE_ADD(#{date},INTERVAL 9 HOUR ) )
+        AND kqsj &gt; (SELECT DATE_FORMAT(#{date},'%Y-%m-%d %H:%i:%s'))
+        )
+    </select>
+
+    <select id="getCurrentAbsent" parameterType="java.lang.String" resultType="com.lsure.server.entity.stuInfo">
+        SELECT * from yjs_xxb WHERE
+        <choose>
+            <when test="tutorid=='admin'">
+            </when>
+            <otherwise>
+                js_id=#{tutorid} AND
+            </otherwise>
+        </choose>
+        yjs_id not IN (
+        select DISTINCT yjs_sys_kqb.yjs_id FROM yjs_sys_kqb WHERE kqsj &lt; (SELECT DATE_ADD(#{date},INTERVAL 17 HOUR )
+        )
+        AND kqsj &gt; (SELECT DATE_FORMAT(#{date},'%Y-%m-%d %H:%i:%s'))
+        )
+
+    </select>
+    <select id="getArrivalLate" parameterType="java.lang.String" resultType="com.lsure.server.entity.stuInfo">
+        SELECT *FROM yjs_xxb WHERE
+        <choose>
+            <when test="tutorid=='admin'">
+            </when>
+            <otherwise>
+                js_id=#{tutorid} AND
+            </otherwise>
+        </choose>
+        yjs_id IN (
+        select DISTINCT yjs_sys_kqb.yjs_id FROM yjs_sys_kqb WHERE kqsj &lt; (SELECT DATE_ADD(#{date},INTERVAL 17 HOUR
+        ))AND kqsj &gt; (SELECT DATE_FORMAT(#{date},'%Y-%m-%d %H:%i:%s'))
+        )
+        and yjs_id not IN (
+        select DISTINCT yjs_sys_kqb.yjs_id FROM yjs_sys_kqb WHERE kqsj &lt; (SELECT DATE_ADD(#{date},INTERVAL 9 HOUR )
+        )
+        AND kqsj &gt; (SELECT DATE_FORMAT(#{date},'%Y-%m-%d %H:%i:%s'))
+        )
+
+    </select>
+    <select id="getAllstuinfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT yjs_id,yjs_name FROM yjs_xxb
+        <choose>
+            <when test="tutorid=='admin'">
+            </when>
+            <otherwise>
+                WHERE yjs_tutor=#{tutorid}
+            </otherwise>
+        </choose>
+
+    </select>
+    <select id="getSpecificRcord" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT *
+        FROM yjs_sys_kqb
+        WHERE yjs_id = #{studentid}
+    </select>
+
+    <select id="getSpecificAttendence" parameterType="java.lang.String" resultType="java.util.HashMap">
+        SELECT *
+        FROM yjs_kqjlb_day
+        WHERE yjs_id = #{studentid}
+    </select>
+    <select id="getMonthTimekeepingview" resultType="java.util.HashMap">
+        SELECT
+            yjs_id,
+            count(*) AS ontime_count
+        FROM yjs_kqjlb_day
+        WHERE yjs_id IN (SELECT yjs_id
+                         FROM yjs_xxb
+                         WHERE yjs_tutor =
+                               #{yjs_tutor})
+              AND yjs_kqjlb_day.kqrq &gt; #{start_date}
+              AND yjs_kqjlb_day.kqrq &lt; #{end_date}
+              AND DATE_FORMAT(yjs_kqjlb_day.kqsj_first, "%H:%i:%s") &lt; "09:00:00"
+        GROUP BY yjs_id
+
+
+    </select>
+    <select id="getMonthAttendanceview" resultType="java.util.HashMap">
+        SELECT
+            yjs_id,
+            count(*) AS arrival_count
+        FROM yjs_kqjlb_day
+        WHERE yjs_id IN (SELECT yjs_id
+                         FROM yjs_xxb
+                         WHERE yjs_tutor =
+                               #{yjs_tutor})
+              AND yjs_kqjlb_day.kqrq &gt; #{start_date}
+              AND yjs_kqjlb_day.kqrq &lt; #{end_date}
+        GROUP BY yjs_id
+    </select>
+</mapper>

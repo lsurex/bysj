@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.info.infoDao">
+    <select id="getstudents" resultType="com.lsure.server.entity.individual">
+        SELECT yjs_xxb.yjs_id,yjs_xxb.yjs_name,yjs_xxb.yjs_sex,yjs_xxb.yjs_age,yjs_xxb.yjs_nj,sys_xxb.sys_jc,yjs_sys_zwxxb.zwh from (yjs_xxb LEFT JOIN yjs_sys_zwxxb ON (yjs_xxb.yjs_id=yjs_sys_zwxxb.yjs_id))LEFT JOIN sys_xxb ON (sys_xxb.sys_id=yjs_sys_zwxxb.sys_id) where yjs_tutor=#{tutorid}
+    </select>
+    <select id="getIndividual" resultType="java.util.HashMap">
+        SELECT * FROM yjs_xxb WHERE yjs_id=#{yjs_id}
+        <choose>
+            <when test="role=='admin'">
+
+            </when>
+            <otherwise>
+                AND yjs_tutor=#{yjs_tutor}
+            </otherwise>
+        </choose>
+
+    </select>
+    <update id="deleteBatch">
+        DELETE FROM yjs_xxb WHERE yjs_id IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        <choose>
+            <when test="role=='admin'"></when>
+            <otherwise>AND yjs_tutor=#{tutorid}</otherwise>
+        </choose>
+
+    </update>
+    <update id="updateindividual">
+        ${sql}
+    </update>
+    <insert id="insertindividual">
+        ${sql}
+    </insert>
+</mapper>

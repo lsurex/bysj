@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trash.yjs_xx.tb_alter.tb_alter">
+    <!--修改扩展信息记录表表结构-->
+    <update id="tb_columns_add">
+        ALTER  TABLE  ${tb} ADD COLUMN ${newcol} ${type} ;
+    </update>
+    <update id="tb_columns_comment_alter">
+        ALTER TABLE ${tb} MODIFY ${newcol} ${type} COMMENT #{comment};
+    </update>
+    <update id="tb_columns_delete">
+        ALTER TABLE ${tb} DROP ${column} RESTRICT;
+    </update>
+    <!--更新扩展信息记录表内容-->
+    <insert id="jlb_add">
+      INSERT  INTO  ${tb}(jlb_lm,jlb_type,jlb_bz) VALUES (#{col_name},#{type},#{comment});
+    </insert>
+    <delete id="jlb_delete">
+        DELETE FROM ${tb} WHERE ${column}=#{variable};
+    </delete>
+    <select id="jlb_query" parameterType="java.lang.String" resultType="com.lsure.server.entity.jlb_po">
+        SELECT * FROM ${tb};
+    </select>
+    <update id="info_insert">
+        INSERT into ${tb} VALUES
+        <foreach collection="info" item="tag" index="index"  separator="," open="" close="">
+            ${tag}
+        </foreach>
+    </update>
+</mapper>

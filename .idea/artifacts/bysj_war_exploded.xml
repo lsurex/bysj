@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="bysj:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/bysj_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="bysj/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="bysj" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="aopalliance-1.0 (2)" />
+          <element id="library" level="project" name="commons-fileupload-1.3.1" />
+          <element id="library" level="project" name="jxl-2.6.9" />
+          <element id="library" level="project" name="log4j-1.2.16" />
+          <element id="library" level="project" name="curvesapi-1.04" />
+          <element id="library" level="project" name="poi-3.15" />
+          <element id="library" level="project" name="xmlbeans-2.6.0" />
+          <element id="library" level="project" name="commons-collections4-4.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

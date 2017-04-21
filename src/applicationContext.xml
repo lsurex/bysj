@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-4.2.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--扫描@注解-->
+    <context:component-scan base-package="com.lsure.server.service"></context:component-scan>
+  <!--  <mvc:annotation-driven/>-->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties"></property>
+    </bean>
+    <!--配置数据源-->
+    <bean id="DateSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driver}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="username" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+
+    </bean>
+    <!--设置sqlsessionfactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="DateSource"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>
+    <!--自动扫描mapper 扫描dao-->
+    <bean id="configurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lsure.server.dao"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+      <!--  <property name="annotationClass" value="dao.myRepository"></property>-->
+    </bean>
+   <!--   <bean id="userdao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+          <property name="mapperInterface" value="dao.userdao"></property>
+          <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+      </bean>-->
+    <!--声明事物-->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="DateSource"></property>
+    </bean>
+    <!--启动注解-->
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+   <!-- <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="maxUploadSizePerFile" value="5242880"></property>
+        <property name="maxInMemorySize">
+            <value>1024</value>
+        </property>
+
+    </bean>-->
+</beans>

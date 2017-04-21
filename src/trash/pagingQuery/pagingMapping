@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsure.server.dao.query.pagingQuery">
+    <resultMap id="stuInfo" type="com.lsure.server.entity.stuInfo">
+        <result property="yjs_id" column="yjs_id"/>
+        <result property="yjs_sex" column="yjs_sex"/>
+        <result property="yjs_nj" column="yjs_nj"/>
+        <result property="yjs_name" column="yjs_name"/>
+        <result property="yjs_age" column="yjs_age"/>
+        <result property="yjs_pswd" column="yjs_pswd"/>
+        <result property="yjs_tutor" column="yjs_tutor"/>
+    </resultMap>
+    <select id="queryforStuinfo" resultMap="stuInfo">
+        SELECT * FROM (SELECT* FROM yjs_xxb ORDER BY ${priority}) as t limit #{startRow},#{pageSize}
+    </select>
+    <select id="queryCounts" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM yjs_xxb ;
+    </select>
+    <select id="fuzzyQueryStuinfobyName" parameterType="java.lang.String" resultMap="stuInfo">
+        SELECT * FROM  yjs_xxb WHERE yjs_name LIKE concat(concat('%',#{token}),'%')
+</select>
+    <select id="fuzzyQueryStuinfobyID" parameterType="java.lang.String" resultMap="stuInfo">
+         SELECT * FROM  yjs_xxb WHERE yjs_id LIKE concat(concat('%',#{token}),'%')
+    </select>
+    <select id="queryforfixed" parameterType="java.lang.String" resultMap="stuInfo">
+        SELECT  * FROM  yjs_xxb where yjs_id=#{keyword}
+    </select>
+    <select id="queryforextensive" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select *from yjs_kzxxb WHERE  yjs_id=#{keyword}
+    </select>
+    <select id="getextensiveItems" resultType="java.util.HashMap">
+        SELECT * FROM yjs_kzxxb_jlb
+    </select>
+    <update id="updatefixed" parameterType="com.lsure.server.entity.stuInfo">
+        UPDATE yjs_xxb SET yjs_name=#{yjs_name},yjs_sex=#{yjs_sex},yjs_age=#{yjs_age},yjs_nj=#{yjs_nj},yjs_tutor=#{yjs_tutor} WHERE yjs_id=#{yjs_id}
+    </update>
+    <update id="updateextensive">
+        UPDATE  yjs_kzxxb ${sql} WHERE yjs_id=#{yjs_id}
+    </update>
+    <update id="deletebatch">
+        DELETE FROM yjs_xxb WHERE yjs_id IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

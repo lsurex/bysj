@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC
+        "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <mappers>
+        <mapper resource="com/lsure/server/mapper/login/loginMapping"></mapper>
+      <!--  <mapper resource="com/lsure/server/mapper/pagingQuery/pagingMapping"></mapper>-->
+        <mapper resource="com/lsure/server/mapper/modify/modifyMapping.xml"></mapper>
+      <!--  <mapper resource="com/lsure/server/mapper/yjs_xx/tb_alter/tb_alter_mapping"></mapper>-->
+        <mapper resource="com/lsure/server/mapper/attendence/attendenceMapping"></mapper>
+      <!--  <mapper resource="com/lsure/server/mapper/pagingQuery/info_adminMapping"></mapper>-->
+        <mapper resource="com/lsure/server/mapper/advance/advanceMapping"></mapper>
+        <mapper resource="com/lsure/server/mapper/info/infoMapping"></mapper>
+        <mapper resource="com/lsure/server/mapper/info/treeviewMapping"></mapper>
+    </mappers>
+</configuration>
